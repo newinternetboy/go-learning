@@ -1,0 +1,136 @@
+1 go语言的变量名由数字，字母，下划线组成，首字母不能为数字
+  //声明1
+	var v_name v_type
+	变量如果声明了，但是没有初始化，系统会根据变量的类型进行自动初始化
+	bool：fasle
+	number：0
+	string:""
+	其余的类型：<nil>
+  //声明2
+	根据值自行判定变量类型
+	var v_name = value	
+  //声明3
+	省略var关键字，注意:=左侧不能有已经定义的变量，就会编译错误
+	./first.go:6:11: no new variables on left side of :=
+		
+  //声明4
+	多变量声明
+	类型相同的多个变量：var v1, v2, v3 type
+	自动判断：var v1, v2, v3 = v1, v2, v3
+	省略var：varname1, varname2 := v1, v2 这种不带声明格式的只能在函数体中出现
+	因式分解关键词:
+		var (
+			vname1 vtype1
+			vname2 vtype2
+		)
+	
+2 go语言的数据类型的存储方式
+	//值类型
+	数值，bool，字符串直接指向存储在内存中的值
+	//引用赋值
+	&i:获取变量i的内存地址
+	引用地址所在的值被更新后，所有引用该地址的所有变量都会发生变更
+	//注意事项
+		如果一个局部变量声明后，没有在代码块儿中使用，那么也会发生报错;//a declared and not used 
+		但是定义的值可以用_抛弃，_, a = 1, 2;//1被抛弃
+		全局变量可以支持声明后不调用
+
+3 go语言的常量
+	常量的类型定义必须是字符串，数字型，布尔型
+  //声明1
+	const identifier [type] = value // type省略了就是隐身类型定义
+  //声明2
+	const (
+		a = 'abc'
+		b = len(a)
+	)
+	常量表达式中的函数必须是go的内置函数
+  //特殊常量iota
+	const (
+		a = iota
+		b
+	)
+	a,b = 0,1
+
+4 go语言的运算符
+  //算术运算符:+,-,*,/,%,++,--
+  //关系运算符:==,!=,>,<,<=,>=
+  //逻辑运算符:&&,||,!
+  //位运算符: &,|,^,<<(左移),>>(右移)
+  //赋值运算符: =,+=,-=,*=,/=,%=,<<=,>>=,&=,^=,|=
+  //其他运算符:&(地址引用，返回变量存储的地址,生成一个地址指针),*(指针变量):获取指针变量地址对应的值
+  //运算符优先级
+	|优先级|		|运算符|
+	6			^!
+	5			* / % << >> & & ^
+	4			+ - | ^
+	3			== != < <= > >=
+	2			&&
+	1			||
+
+5 go语言变量作用域
+	//全局变量，定义在函数体外的变量
+	//局部变量，定义在函数体内的变量
+	//形式传参, 函数定义时候的参数，相当于局部变量
+
+6 go语言数组
+	//数组中存储的是相同数据类型的数据元素
+	//数组长度声明后不能够变更
+	//声明 var array_name [length1][...][lengthn] type
+	数组声明的时候，长度不能使用变量替代，否则会报错,non-constant array bound 变量名
+	//指针数组的声明 var point_array_name [length] type
+	//指针的指针:指向指针变量的地址 var pp **type
+
+7 go语言结构体
+	//声明: type struct_name struct{
+		item1 type1
+		item2 type2
+	} 
+	//结构体指针声明: var point_name *struct_name
+	//结构体的field可以通过指针地址访问，
+	//(*point_name).fieldname;臃肿的写法；
+	//point_name.fieldname;简洁的写法;
+	
+8 go语言的切片
+	//声明: var []type slice_name
+	//make()函数声明: slice_name := make([]type,len,cap)
+	//填充:slice_name = append(slice_name,item1[,item2,...,itmen])
+	//将slice2复制到slice1中：copy(slice1,slice2)
+
+9 go语言range
+	//range用于for循环中迭代数组,返回键值key => value,参数可抛弃
+	nums := []int{1,2,3}
+	for i, num := range nums{
+		fmt.Printf(i,num)
+	}
+
+10 go语言map
+	//声明
+	var map_var map[key_data_type]value_data_type
+	//声明并初始化
+	map_var := make(map[string]string)	
+	//删除
+	delete(map_name, map_key)
+
+11 go语言变量类型转换
+	type(var_name)
+
+12 go语言接口数据类型
+	/* 接口定义 */
+	type interface_name interface {
+		method_name1 [type]
+		method_name2 [type]
+	}
+	
+	/* 定义结构体 */
+	type struct_name struct {
+	
+	}
+	
+	/* 实现接口 */
+	func (struct_variable struct_name) method_name() [type] {
+
+	}
+	
+13 defer 在函数调用链返回后，执行该函数
+	defer 函数调用
